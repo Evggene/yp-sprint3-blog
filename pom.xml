@@ -15,6 +15,7 @@
         <spring.version>6.1.0</spring.version>
         <spring.data.version>3.1.0</spring.data.version>
         <junit.version>5.10.0</junit.version>
+        <junit-jupiter.version>5.10.0</junit-jupiter.version> <!-- JUnit 5 -->
     </properties>
 
     <dependencies>
@@ -38,11 +39,11 @@
             <artifactId>spring-data-jdbc</artifactId>
             <version>${spring.data.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>6.1.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-jdbc</artifactId>-->
+<!--            <version>6.1.0</version>-->
+<!--        </dependency>-->
 
         <!-- Spring Test -->
         <dependency>
@@ -98,6 +99,35 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
             <version>10.1.13</version>
+        </dependency>
+
+        <!-- Spring Data JDBC -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jdbc</artifactId>
+            <version>3.2.5</version> <!-- совместимая с Spring 6 -->
+        </dependency>
+
+        <!-- Spring Test (для интеграционных тестов) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>6.1.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 5 (Jupiter) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

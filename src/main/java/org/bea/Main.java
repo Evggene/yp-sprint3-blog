@@ -8,7 +8,9 @@ import org.h2.server.web.JakartaWebServlet;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+@EnableWebMvc
 public class Main {
     public static void main(String[] args) throws Exception {
         var tomcat = new Tomcat();
@@ -37,8 +39,8 @@ public class Main {
 
     private static WebApplicationContext createWebApplicationContext() {
         var context = new AnnotationConfigWebApplicationContext();
-        context.register(DataConfig.class);
         context.register(AppConfig.class);
+        context.register(DataConfig.class);
         context.refresh();
         return context;
     }
