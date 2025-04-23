@@ -4,40 +4,41 @@ import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.bea.configuration.AppConfig;
 import org.bea.configuration.DataConfig;
+import org.h2.server.web.JakartaWebServlet;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        // 1. Создаем Tomcat
-        Tomcat tomcat = new Tomcat();
+        var tomcat = new Tomcat();
         tomcat.setPort(8080);
 
-        // 2. Создаем Spring Web контекст (важно именно WebApplicationContext)
-        WebApplicationContext appContext = createWebApplicationContext();
+        var tomcatContext = tomcat.addContext("", null);
+        var appContext = createWebApplicationContext();
 
-        // 3. Настраиваем веб-приложение
-        Context tomcatContext = tomcat.addContext("", null);
-
-        // 4. Регистрируем DispatcherServlet
-        DispatcherServlet dispatcherServlet = new DispatcherServlet(appContext);
-        Tomcat.addServlet(tomcatContext, "dispatcher", dispatcherServlet)
+        Tomcat.addServlet(tomcatContext, "dispatcher", new DispatcherServlet(appContext))
                 .addMapping("/");
         tomcatContext.addServletMappingDecoded("/*", "dispatcher");
 
-        // 5. Запускаем сервер
+        addServletH2(tomcatContext);
+
         tomcat.getConnector();
         tomcat.start();
         System.out.println("Server started on port " + tomcat.getConnector().getPort());
         tomcat.getServer().await();
     }
 
+    private static void addServletH2(Context tomcatContext) {
+        Tomcat.addServlet(tomcatContext, "h2Console", new JakartaWebServlet())
+                .addMapping("/h2Console/*");
+        tomcatContext.addServletMappingDecoded("/h2Console/*", "h2Console");
+    }
+
     private static WebApplicationContext createWebApplicationContext() {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        // Регистрируем конфигурационные классы в правильном порядке:
-        context.register(DataConfig.class); // Сначала Flyway и DataSource
-        context.register(AppConfig.class);     // Затем Web MVC конфигурацию
+        var context = new AnnotationConfigWebApplicationContext();
+        context.register(DataConfig.class);
+        context.register(AppConfig.class);
         context.refresh();
         return context;
     }
