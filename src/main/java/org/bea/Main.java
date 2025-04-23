@@ -8,17 +8,11 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Tomcat tomcat = new Tomcat();
-
-        Context context = tomcat.addWebapp("", new File("src/main/webapp").getAbsolutePath());
+        var tomcat = new Tomcat();
+        var context = tomcat.addWebapp("", new File("src/main/webapp").getAbsolutePath());
         context.addApplicationListener(AppInitializer.class.getName());
         tomcat.setPort(8082);
-        tomcat.getConnector().addLifecycleListener(event -> {
-            if (event.getType().equals("start")) {
-                System.out.println("Соединение установлено на порту: " +
-                        ((Connector)event.getSource()).getPort());
-            }
-        });
+        tomcat.getConnector();
         tomcat.start();
         tomcat.getServer().await();
     }
