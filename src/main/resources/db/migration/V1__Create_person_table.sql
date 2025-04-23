@@ -1,0 +1,8 @@
+CREATE TABLE person (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    age INT
+);
+
+CREATE SEQUENCE person_seq START WITH 1 INCREMENT BY 1;
