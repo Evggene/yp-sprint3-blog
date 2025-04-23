@@ -27,6 +27,7 @@ public class DataConfig {
                 .dataSource(dataSource)
                 .locations("classpath:db/migration")
                 .baselineOnMigrate(true)
+                .schemas("public")
                 .load();
     }
 
@@ -34,6 +35,4 @@ public class DataConfig {
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
-
-
 }

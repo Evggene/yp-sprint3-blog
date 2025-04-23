@@ -1,8 +1,5 @@
-CREATE TABLE person (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    age INT
+CREATE TABLE public.users (
+    id BIGINT PRIMARY KEY
 );
 
-CREATE SEQUENCE person_seq START WITH 1 INCREMENT BY 1;
+Insert into public.users (id) values (1)
